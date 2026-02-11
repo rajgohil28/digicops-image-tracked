@@ -423,8 +423,8 @@ const MagicTshirt = ({ onBack }) => {
           <div className="scale-slider-container">
             <input
               type="range"
-              min="0.5"
-              max="3"
+              min="1"
+              max="2"
               step="0.1"
               value={scaleFactor}
               onChange={(e) => setScaleFactor(parseFloat(e.target.value))}
