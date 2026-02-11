@@ -11,5 +11,9 @@ export default defineConfig({
   server: {
     host: true, // Exposes the server to the network (0.0.0.0)
     https: true // Enables HTTPS
+  },
+  build: {
+    outDir: 'docs',
+    emptyOutDir: true
   }
 })

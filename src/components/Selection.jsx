@@ -1,7 +1,15 @@
 import React from 'react';
 import '../App.css';
+import { playClickSound } from '../utils/audio';
 
 const SelectionOption = ({ title, contentImage, onSelect, disabled }) => {
+  const handleSelect = () => {
+    if (!disabled) {
+      playClickSound();
+      onSelect();
+    }
+  };
+
   return (
     <div className={`selection-option ${disabled ? 'disabled' : ''}`}>
       <div className="option-frame-container">
@@ -16,7 +24,7 @@ const SelectionOption = ({ title, contentImage, onSelect, disabled }) => {
         {/* Selection button overlaying the frame bottom */}
         <button 
           className="option-action-btn" 
-          onClick={onSelect}
+          onClick={handleSelect}
           disabled={disabled}
         >
           {title}
@@ -27,6 +35,11 @@ const SelectionOption = ({ title, contentImage, onSelect, disabled }) => {
 };
 
 const Selection = ({ onSelect, onBack }) => {
+  const handleBack = () => {
+    playClickSound();
+    onBack();
+  };
+
   return (
     <div className="screen selection-screen">
       <h1 className="selection-title">
@@ -36,19 +49,19 @@ const Selection = ({ onSelect, onBack }) => {
       <div className="options-grid">
         <SelectionOption 
           title="Magic T-Shirt"
-          contentImage="/assets/UI/Screen 2 Tshirt.png" // Placeholder for T-shirt image
+          contentImage="/assets/UI/Screen 2 Tshirt.png"
           onSelect={() => onSelect('magic-tshirt')}
         />
         
         <SelectionOption 
           title="Zoo Sticker"
-          contentImage="/assets/UI/Screen 2 Sticker.png" // Placeholder for Lion image
+          contentImage="/assets/UI/Screen 2 Sticker.png"
           disabled={true}
           onSelect={() => {}}
         />
       </div>
 
-      <button className="btn-back-selection" onClick={onBack}>
+      <button className="btn-back-selection" onClick={handleBack}>
         Back
       </button>
     </div>

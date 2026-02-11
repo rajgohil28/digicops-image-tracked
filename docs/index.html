@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiCops AR</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+    <script>
+      // Custom A-Frame component to force all materials to be opaque and double-sided
+      AFRAME.registerComponent('force-opaque', {
+        init: function () {
+          this.el.addEventListener('model-loaded', (e) => {
+            const model = e.detail.model;
+            if (!model) return;
+            model.traverse((node) => {
+              if (node.isMesh && node.material) {
+                const materials = Array.isArray(node.material) ? node.material : [node.material];
+                materials.forEach((mat) => {
+                  mat.transparent = true;       // Transparency mode: enabled
+                  mat.alphaTest = 0.5;          // Helps with depth testing
+                  mat.depthWrite = true;
+                  mat.opacity = 1.0;            // Mode: Opaque appearance
+                  mat.side = THREE.DoubleSide;  // Fixes one-sided issues
+                  mat.needsUpdate = true;
+                });
+              }
+            });
+            console.log('[force-opaque] Applied opaque + double-sided to:', this.el.id);
+          });
+        }
+      });
+    </script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: transparent;
+      }
+      /* Prevent scrolling/bouncing on mobile */
+      html, body {
+        overscroll-behavior: none;
+        overflow: hidden;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-Be83ksbL.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BlGnS9vj.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
