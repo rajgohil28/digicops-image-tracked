@@ -14,7 +14,7 @@ const SelectionOption = ({ title, contentImage, onSelect, disabled }) => {
     <div className={`selection-option ${disabled ? 'disabled' : ''}`}>
       <div className="option-frame-container">
         {/* The frame asset */}
-        <img src="/assets/UI/frame 1.png" alt="frame" className="option-frame" />
+        <img src="assets/UI/frame 1.png" alt="frame" className="option-frame" />
         
         {/* Content image inside the frame */}
         <div className="option-content">
@@ -49,13 +49,13 @@ const Selection = ({ onSelect, onBack }) => {
       <div className="options-grid">
         <SelectionOption 
           title="Magic T-Shirt"
-          contentImage="/assets/UI/Screen 2 Tshirt.png"
+          contentImage="assets/UI/Screen 2 Tshirt.png"
           onSelect={() => onSelect('magic-tshirt')}
         />
         
         <SelectionOption 
           title="Zoo Sticker"
-          contentImage="/assets/UI/Screen 2 Sticker.png"
+          contentImage="assets/UI/Screen 2 Sticker.png"
           disabled={true}
           onSelect={() => {}}
         />
