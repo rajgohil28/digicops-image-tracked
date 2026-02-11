@@ -275,7 +275,14 @@ const MagicTshirt = ({ onBack }) => {
       // we'll just toggle the boolean. The visible model will react.
       setIsModelAnimated(prev => !prev);
     };
+
+    const onAnimationFinished = () => {
+      console.log('[MagicTshirt] Animation finished event received');
+      setIsModelAnimated(false);
+    };
+
     window.addEventListener('toggle-animal-animation', onToggleEvent);
+    window.addEventListener('animation-finished-event', onAnimationFinished);
 
     return () => {
       if (target) {
@@ -284,6 +291,7 @@ const MagicTshirt = ({ onBack }) => {
       }
       window.removeEventListener('click', handleGlobalClick);
       window.removeEventListener('toggle-animal-animation', onToggleEvent);
+      window.removeEventListener('animation-finished-event', onAnimationFinished);
       if (scene && scene.systems['mindar-image-system']) {
         try {
           scene.systems['mindar-image-system'].stop();
@@ -297,12 +305,14 @@ const MagicTshirt = ({ onBack }) => {
   const nextAnimal = () => {
     if (selectedAnimalIndex === null) return;
     setIsModelAnimated(false);
+    setScaleFactor(1);
     setSelectedAnimalIndex((prev) => (prev + 1) % ANIMALS.length);
   };
 
   const prevAnimal = () => {
     if (selectedAnimalIndex === null) return;
     setIsModelAnimated(false);
+    setScaleFactor(1);
     setSelectedAnimalIndex((prev) => (prev - 1 + ANIMALS.length) % ANIMALS.length);
   };
 
@@ -342,7 +352,7 @@ const MagicTshirt = ({ onBack }) => {
             const scaledScale = `${sx * scaleFactor} ${sy * scaleFactor} ${sz * scaleFactor}`;
             
             const currentClip = isModelAnimated ? animal.activeAnimation : animal.idleAnimation;
-            const mixerString = `clip: ${currentClip}; loop: repeat; timeScale: 1`;
+            const mixerString = `clip: ${currentClip}; loop: ${isModelAnimated ? 'once' : 'repeat'}; timeScale: 1`;
             
             if (isVisible) {
               console.log(`[MagicTshirt] Rendering visible model: ${animal.name}, clip: ${currentClip}, animated: ${isModelAnimated}`);
@@ -358,6 +368,7 @@ const MagicTshirt = ({ onBack }) => {
                 scale={scaledScale}
                 visible={isVisible ? 'true' : 'false'}
                 animation-mixer={mixerString}
+                animation-finished-listener
                 force-opaque
               ></a-gltf-model>
             );
@@ -384,6 +395,7 @@ const MagicTshirt = ({ onBack }) => {
                 playClickSound();
                 console.log('[MagicTshirt] animal selected via menu:', animal.name, 'index:', index);
                 setIsModelAnimated(false);
+                setScaleFactor(1);
                 setSelectedAnimalIndex(index);
                 setMenuOpen(false);
               }}
@@ -419,7 +431,7 @@ const MagicTshirt = ({ onBack }) => {
         </>
       )}
 
-      {/* Bottom Action Bar */}
+      {/* Bottom Action Bar - Hidden for now
       <div className="bottom-action-bar">
         <button className="action-circle-btn" onClick={takeScreenshot}>
           <img id="ui-capture-icon" src="assets/UI/Final Camera Icon.png" alt="Capture" />
@@ -432,6 +444,7 @@ const MagicTshirt = ({ onBack }) => {
           />
         </button>
       </div>
+      */}
     </div>
   );
 };

@@ -32,6 +32,16 @@
           });
         }
       });
+
+      // Custom A-Frame component to listen for animation finished events
+      AFRAME.registerComponent('animation-finished-listener', {
+        init: function () {
+          this.el.addEventListener('finished', () => {
+            console.log('[animation-finished-listener] Animation finished for:', this.el.id);
+            window.dispatchEvent(new CustomEvent('animation-finished-event'));
+          });
+        }
+      });
     </script>
     <style>
       body {

@@ -32,6 +32,16 @@
           });
         }
       });
+
+      // Custom A-Frame component to listen for animation finished events
+      AFRAME.registerComponent('animation-finished-listener', {
+        init: function () {
+          this.el.addEventListener('finished', () => {
+            console.log('[animation-finished-listener] Animation finished for:', this.el.id);
+            window.dispatchEvent(new CustomEvent('animation-finished-event'));
+          });
+        }
+      });
     </script>
     <style>
       body {
@@ -45,7 +55,7 @@
         overflow: hidden;
       }
     </style>
-    <script type="module" crossorigin src="/digicops-image-tracked/assets/index-BNw9FfZL.js"></script>
+    <script type="module" crossorigin src="/digicops-image-tracked/assets/index-BpPGLng9.js"></script>
     <link rel="stylesheet" crossorigin href="/digicops-image-tracked/assets/index-Dr5uEMqb.css">
   </head>
   <body>
