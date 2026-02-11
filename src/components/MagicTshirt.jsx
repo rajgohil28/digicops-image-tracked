@@ -3,11 +3,11 @@ import '../App.css';
 import { playClickSound } from '../utils/audio';
 
 const ANIMALS = [
-  { id: 1, name: 'Puma', file: '/assets/models/puma.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Armature|idle pose', activeAnimation: 'Armature|aggressive_roar'},
-  { id: 2, name: 'Elephant', file: '/assets/models/Elephant.glb', scale: '0.5 0.5 0.5', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Animation_01', activeAnimation: 'Animation_03'},
-  { id: 3, name: 'Deer', file: '/assets/models/Deer.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'deer_ideal_call_01', activeAnimation: 'deer_hit_reaction_front_01'},
-  { id: 4, name: 'Robin', file: '/assets/models/robin_bird.glb', scale: '10 10 10', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Robin_Bird_Idle', activeAnimation: 'Robin_Bird_Walk'},
-  { id: 5, name: 'Alex', file: '/assets/models/bird_alex.glb', scale: '0.5 0.5 0.5', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'idleB1', activeAnimation: 'fly1_bird'},
+  { id: 1, name: 'Puma', file: './assets/models/puma.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Armature|idle pose', activeAnimation: 'Armature|aggressive_roar'},
+  { id: 2, name: 'Elephant', file: './assets/models/Elephant.glb', scale: '0.5 0.5 0.5', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Animation_01', activeAnimation: 'Animation_03'},
+  { id: 3, name: 'Deer', file: './assets/models/Deer.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'deer_ideal_call_01', activeAnimation: 'deer_hit_reaction_front_01'},
+  { id: 4, name: 'Robin', file: './assets/models/robin_bird.glb', scale: '10 10 10', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Robin_Bird_Idle', activeAnimation: 'Robin_Bird_Walk'},
+  { id: 5, name: 'Alex', file: './assets/models/bird_alex.glb', scale: '0.5 0.5 0.5', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'idleB1', activeAnimation: 'fly1_bird'},
 ];
 
 const MagicTshirt = ({ onBack }) => {
@@ -310,13 +310,13 @@ const MagicTshirt = ({ onBack }) => {
     <div className="ar-container">
       {/* Back Button - Top Left */}
       <button className="icon-btn-back" onClick={handleBack} aria-label="Go back">
-        <img id="ui-back-icon" src="/assets/UI/Final Back Icon.png" alt="Back" />
+        <img id="ui-back-icon" src="./assets/UI/Final Back Icon.png" alt="Back" />
       </button>
 
       {/* AR Scene */}
       <a-scene
         ref={sceneRef}
-        mindar-image="imageTargetSrc: /assets/targets.mind; autoStart: true; uiLoading: no; uiError: no; uiScanning: no; filterMinCF:0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5"
+        mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: true; uiLoading: no; uiError: no; uiScanning: no; filterMinCF:0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5"
         color-space="sRGB"
         embedded
         renderer="colorManagement: true, physicallyCorrectLights, alpha: true"
@@ -398,10 +398,10 @@ const MagicTshirt = ({ onBack }) => {
       {targetFound && selectedAnimalIndex !== null && (
         <>
           <button className="nav-arrow left" onClick={handlePrevAnimal}>
-            <img id="ui-nav-prev" src="/assets/UI/Forward.png" alt="Previous" style={{ transform: 'rotate(180deg)' }} />
+            <img id="ui-nav-prev" src="./assets/UI/Forward.png" alt="Previous" style={{ transform: 'rotate(180deg)' }} />
           </button>
           <button className="nav-arrow right" onClick={handleNextAnimal}>
-            <img id="ui-nav-next" src="/assets/UI/Forward.png" alt="Next" />
+            <img id="ui-nav-next" src="./assets/UI/Forward.png" alt="Next" />
           </button>
 
           <div className="scale-slider-container">
@@ -422,12 +422,12 @@ const MagicTshirt = ({ onBack }) => {
       {/* Bottom Action Bar */}
       <div className="bottom-action-bar">
         <button className="action-circle-btn" onClick={takeScreenshot}>
-          <img id="ui-capture-icon" src="/assets/UI/Final Camera Icon.png" alt="Capture" />
+          <img id="ui-capture-icon" src="./assets/UI/Final Camera Icon.png" alt="Capture" />
         </button>
         <button className={`action-circle-btn ${isRecording ? 'recording' : ''}`} onClick={toggleRecording}>
           <img 
             id="ui-video-icon"
-            src={isRecording ? '/assets/UI/Final Video stop.png' : '/assets/UI/Final Video start.png'} 
+            src={isRecording ? './assets/UI/Final Video stop.png' : './assets/UI/Final Video start.png'} 
             alt={isRecording ? "Stop Video" : "Start Video"} 
           />
         </button>

@@ -10,7 +10,7 @@ const Welcome = ({ onStart }) => {
 
   return (
     <div className="screen welcome-screen">
-      <img src="/assets/UI/Logo.png" alt="Magic AR World Logo" className="welcome-logo" />
+      <img src="./assets/UI/Logo.png" alt="Magic AR World Logo" className="welcome-logo" />
       <button className="btn-start" onClick={handleStart}>
         Start Magic
       </button>
