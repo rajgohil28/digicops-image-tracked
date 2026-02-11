@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../App.css';
-import { playClickSound } from '../utils/audio';
+import { playClickSound, startBgSound, stopBgSound } from '../utils/audio';
 
 const ANIMALS = [
-  { id: 1, name: 'Puma', file: 'assets/models/puma.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Armature|idle pose', activeAnimation: 'Armature|aggressive_roar'},
+  { id: 1, name: 'Bear', file: 'assets/models/bear.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'bear_idle_static_pose_01', activeAnimation: 'bear_attack_01'},
   { id: 2, name: 'Elephant', file: 'assets/models/Elephant.glb', scale: '0.5 0.5 0.5', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Animation_01', activeAnimation: 'Animation_03'},
   { id: 3, name: 'Deer', file: 'assets/models/Deer.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'deer_ideal_call_01', activeAnimation: 'deer_hit_reaction_front_01'},
   { id: 4, name: 'Robin', file: 'assets/models/robin_bird.glb', scale: '10 10 10', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'Robin_Bird_Idle', activeAnimation: 'Robin_Bird_Walk'},
@@ -193,6 +193,7 @@ const MagicTshirt = ({ onBack }) => {
 
   const handleBack = () => {
     playClickSound();
+    stopBgSound();
     onBack();
   };
 
@@ -212,6 +213,7 @@ const MagicTshirt = ({ onBack }) => {
     const handleTargetFound = () => {
       console.log('[MagicTshirt] targetFound event');
       setTargetFound(true);
+      startBgSound();
       setSelectedAnimalIndex(current => {
         if (current === null) {
           console.log('[MagicTshirt] No animal selected yet -> opening menu');
@@ -224,6 +226,7 @@ const MagicTshirt = ({ onBack }) => {
     const handleTargetLost = () => {
       console.log('[MagicTshirt] targetLost event');
       setTargetFound(false);
+      stopBgSound();
       setSelectedAnimalIndex(null);
       setMenuOpen(false);
     };
@@ -285,6 +288,7 @@ const MagicTshirt = ({ onBack }) => {
     window.addEventListener('animation-finished-event', onAnimationFinished);
 
     return () => {
+      stopBgSound();
       if (target) {
         target.removeEventListener('targetFound', handleTargetFound);
         target.removeEventListener('targetLost', handleTargetLost);
