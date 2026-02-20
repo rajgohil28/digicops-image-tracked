@@ -36,10 +36,26 @@
       // Custom A-Frame component to listen for animation finished events
       AFRAME.registerComponent('animation-finished-listener', {
         init: function () {
-          this.el.addEventListener('finished', () => {
-            console.log('[animation-finished-listener] Animation finished for:', this.el.id);
-            window.dispatchEvent(new CustomEvent('animation-finished-event'));
-          });
+          const el = this.el;
+          
+          const handleFinished = (e) => {
+            // Only trigger if the element is visible
+            const isVisible = el.getAttribute('visible');
+            if (isVisible === false || isVisible === 'false') return;
+
+            const mixer = el.components && el.components['animation-mixer'];
+            // Check if we are in 'once' loop mode
+            if (mixer && mixer.data && mixer.data.loop === 'once') {
+              console.log('[animation-finished-listener] Animation finished for:', el.id);
+              // Send the element ID so the component knows which model finished
+              window.dispatchEvent(new CustomEvent('animation-finished-event', { 
+                detail: { id: el.id } 
+              }));
+            }
+          };
+
+          el.addEventListener('animation-finished', handleFinished);
+          el.addEventListener('finished', handleFinished);
         }
       });
     </script>
@@ -48,6 +64,11 @@
         margin: 0;
         font-family: 'Arial', sans-serif;
         background-color: transparent;
+        background-image: url('/assets/UI/New/BG.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
       }
       /* Prevent scrolling/bouncing on mobile */
       html, body {

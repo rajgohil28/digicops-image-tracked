@@ -4,7 +4,9 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/digicops-image-tracked/',
+  // Use relative paths so the built `docs` folder
+  // works no matter which URL path it is served from.
+  base: './',
   plugins: [
     react(),
     basicSsl()
