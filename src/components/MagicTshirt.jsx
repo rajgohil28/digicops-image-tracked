@@ -377,6 +377,15 @@ const MagicTshirt = ({ onBack }) => {
         activeTimerRef.current = null;
       }
 
+      // Play animal appear sound when animation is triggered
+      const currentIndex = selectedAnimalIndexRef.current;
+      if (currentIndex !== null) {
+        const currentAnimal = ANIMALS[currentIndex];
+        if (currentAnimal.appearSound) {
+          playAppearSound(currentAnimal.appearSound);
+        }
+      }
+
       setIsResettingAnimation(true);
       setIsModelAnimated(true);
       
@@ -387,7 +396,6 @@ const MagicTshirt = ({ onBack }) => {
         console.log('[MagicTshirt] Active animation restarted');
 
         // Check if current animal has a specific duration for active state
-        const currentIndex = selectedAnimalIndexRef.current;
         if (currentIndex !== null) {
           const currentAnimal = ANIMALS[currentIndex];
           if (currentAnimal.activeDuration) {
@@ -442,7 +450,6 @@ const MagicTshirt = ({ onBack }) => {
     setAnimTrigger(0);
     setScaleFactor(1);
     setSelectedAnimalIndex(nextIndex);
-    if (ANIMALS[nextIndex].appearSound) playAppearSound(ANIMALS[nextIndex].appearSound);
   };
 
   const prevAnimal = () => {
@@ -452,7 +459,6 @@ const MagicTshirt = ({ onBack }) => {
     setAnimTrigger(0);
     setScaleFactor(1);
     setSelectedAnimalIndex(prevIndex);
-    if (ANIMALS[prevIndex].appearSound) playAppearSound(ANIMALS[prevIndex].appearSound);
   };
 
   return (
@@ -556,7 +562,6 @@ const MagicTshirt = ({ onBack }) => {
                 setScaleFactor(1);
                 setSelectedAnimalIndex(index);
                 setMenuOpen(false);
-                if (animal.appearSound) playAppearSound(animal.appearSound);
               }}
             >
               {animal.name}
