@@ -142,8 +142,17 @@ export const playAppearSound = async (url) => {
       source.connect(ctx.destination);
       if (destNode) source.connect(destNode);
       source.start(0);
+      return;
     }
   } catch (err) {
-    console.warn('Appear sound failed:', url, err);
+    console.warn('Appear sound failed via WebAudio, falling back to HTMLAudio:', url, err);
+  }
+
+  // Fallback: plain HTMLAudio in case fetch/decode fails (e.g. on some mobile/local setups)
+  try {
+    const audioEl = new Audio(url);
+    audioEl.play().catch(() => {});
+  } catch (e) {
+    console.warn('Fallback HTMLAudio also failed for appear sound:', url, e);
   }
 };
