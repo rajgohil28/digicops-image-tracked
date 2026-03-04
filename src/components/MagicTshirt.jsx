@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../App.css';
-import { playClickSound, startBgSound, stopBgSound, getAudioStream, playAppearSound } from '../utils/audio';
+import { playClickSound, startBgSound, stopBgSound, getAudioStream, playAppearSound, stopAppearSound } from '../utils/audio';
 
 /*const ANIMALS = [
   { id: 1, name: 'Bear', file: 'assets/models/bear.glb', scale: '1 1 1', position: '0 0 0' , rotation: '0 0 0', idleAnimation: 'bear_idle_static_pose_01', activeAnimation: 'bear_attack_01'},
@@ -377,7 +377,8 @@ const MagicTshirt = ({ onBack }) => {
         activeTimerRef.current = null;
       }
 
-      // Play animal appear sound when animation is triggered
+      // Stop any previous animal sound and play the current one
+      stopAppearSound();
       const currentIndex = selectedAnimalIndexRef.current;
       if (currentIndex !== null) {
         const currentAnimal = ANIMALS[currentIndex];
@@ -445,6 +446,7 @@ const MagicTshirt = ({ onBack }) => {
 
   const nextAnimal = () => {
     if (selectedAnimalIndex === null) return;
+    stopAppearSound();
     const nextIndex = (selectedAnimalIndex + 1) % ANIMALS.length;
     setIsModelAnimated(false);
     setAnimTrigger(0);
@@ -454,6 +456,7 @@ const MagicTshirt = ({ onBack }) => {
 
   const prevAnimal = () => {
     if (selectedAnimalIndex === null) return;
+    stopAppearSound();
     const prevIndex = (selectedAnimalIndex - 1 + ANIMALS.length) % ANIMALS.length;
     setIsModelAnimated(false);
     setAnimTrigger(0);
@@ -557,6 +560,7 @@ const MagicTshirt = ({ onBack }) => {
               onClick={() => {
                 playClickSound();
                 console.log('[MagicTshirt] animal selected via menu:', animal.name, 'index:', index);
+                stopAppearSound();
                 setIsModelAnimated(false);
                 setAnimTrigger(0);
                 setScaleFactor(1);

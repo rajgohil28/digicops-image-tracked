@@ -2,6 +2,8 @@
 let audioCtx = null;
 let bgSourceNode = null;
 let destNode = null; // This will be the MediaStreamDestination for recording
+let currentAppearSource = null; // WebAudio source for animal sound
+let currentAppearAudioEl = null; // Fallback HTMLAudio element
 
 // Helper to get or create context
 const getAudioContext = () => {
@@ -133,6 +135,26 @@ export const getAudioStream = () => {
 // Play animal appear sound (used when a model is shown)
 export const playAppearSound = async (url) => {
   if (!url) return;
+
+  // Stop any previous appear sound first
+  if (currentAppearSource) {
+    try {
+      currentAppearSource.stop();
+    } catch (e) {
+      // ignore
+    }
+    currentAppearSource = null;
+  }
+  if (currentAppearAudioEl) {
+    try {
+      currentAppearAudioEl.pause();
+      currentAppearAudioEl.currentTime = 0;
+    } catch (e) {
+      // ignore
+    }
+    currentAppearAudioEl = null;
+  }
+
   const ctx = getAudioContext();
   try {
     const buffer = await loadBuffer(url);
@@ -142,6 +164,7 @@ export const playAppearSound = async (url) => {
       source.connect(ctx.destination);
       if (destNode) source.connect(destNode);
       source.start(0);
+       currentAppearSource = source;
       return;
     }
   } catch (err) {
@@ -151,8 +174,30 @@ export const playAppearSound = async (url) => {
   // Fallback: plain HTMLAudio in case fetch/decode fails (e.g. on some mobile/local setups)
   try {
     const audioEl = new Audio(url);
+    currentAppearAudioEl = audioEl;
     audioEl.play().catch(() => {});
   } catch (e) {
     console.warn('Fallback HTMLAudio also failed for appear sound:', url, e);
+  }
+};
+
+// Explicitly stop any current animal sound (used when switching animals)
+export const stopAppearSound = () => {
+  if (currentAppearSource) {
+    try {
+      currentAppearSource.stop();
+    } catch (e) {
+      // ignore
+    }
+    currentAppearSource = null;
+  }
+  if (currentAppearAudioEl) {
+    try {
+      currentAppearAudioEl.pause();
+      currentAppearAudioEl.currentTime = 0;
+    } catch (e) {
+      // ignore
+    }
+    currentAppearAudioEl = null;
   }
 };
